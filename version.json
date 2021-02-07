@@ -1,4 +1,4 @@
 {
-    "version": "0.0.1",
-    "features": "Basic saving and sacrificing"
+    "version": "0.0.2",
+    "features": "Auto setup and version checking"
 }
