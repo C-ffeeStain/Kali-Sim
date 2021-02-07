@@ -126,3 +126,5 @@ dmypy.json
 
 # Saves directory
 saves/
+*.txt
+saves/*.txt
