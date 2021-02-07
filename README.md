@@ -13,8 +13,7 @@ git clone https://github.com/C-ffeeStain/Kali-Sim/
 cd Kali-Sim
 python -m venv venv
 "venv/scripts/activate.bat"
-python -m pip install requests
-python -m pip install pyinstaller
+pip install -r requirements.txt
 pyinstaller --onefile main.py
 pyinstaller --onefile setup.py
 ```
