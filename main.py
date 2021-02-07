@@ -1,10 +1,14 @@
-import random,os,argparse,sys,math,json,requests,base64,logger
+import random,os,argparse,sys,math,json,requests
+import logger,urllib.request, configparser
 from saveutils import *
 from time import sleep
 
+cfgParser = configparser.ConfigParser()
+cfgParser.read("settings.ini")
+check_for_updates = cfgParser.getboolean("settings","check_for_updates",)
+
 reqText = requests.get("https://github.com/C-ffeeStain/Kali-Sim/raw/main/version.json").text
 webJson = json.loads(reqText)
-version = "0.0.1"
 with open("version.json") as f:
     vJson = json.load(f)
 
@@ -15,8 +19,10 @@ features = vJson["features"]
 
 if webVersion == version:
     logger.updater("You have the latest updates.")
+    logger.updater("To disable these messages, change 'check_for_updates' to false in settings.ini.")
 else:
-    print(str(webVersion) + " " + str(version))
+    logger.updater("You have an outdated version. Please download the latest release.").lower()
+    logger.updater("To disable these messages, change 'check_for_updates' to false in settings.ini.")
 debug = False
 parser = argparse.ArgumentParser(description="Simple command line game to sacrifice to Spelunky 2's Kali.")
 parser.add_argument("--debug",help="Use this to tell this program to use debug mode.",action="store_true")
@@ -53,10 +59,11 @@ while True:
     print("Your favor with Kali: " + str(favor))
     sacrifice = input("What would you like to sacrifice? ")
     print(" ")
-    if sacrifice[-1].lower() == "d":
+    if sacrifice[-1].lower() == "d" and sacrifice != 5:
         sacrifice = sacrifice.removesuffix("d")
         dead = True
-    
+    elif sacrifice == 5 and sacrifice[-1].lower() == "d":
+        sacrifice = sacrifice.removeprefix("d")
     if sacrifice == "10":
         save_game = input("Would you like to save before you go? (Y/n) ")
         if save_game.lower() == 'y':
@@ -131,6 +138,8 @@ while True:
             print("---------------------------------------------------------\n")
         favor = math.ceil(favor / 2)
     if int(sacrifice) <= 5:
+        if sacrifice == 5 and dead:
+            sacrifice = 0
         if favor >= 1 and favor <= 7:
             print("---------------------------------------------------------")
             print("Kali accepts your sacrifice. She seems pleased with you.\n")

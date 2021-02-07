@@ -126,3 +126,6 @@ dmypy.json
 
 # Saves directory
 saves/
+
+# Settings file
+*.ini
