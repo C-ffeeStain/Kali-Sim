@@ -6,7 +6,7 @@ Go to the [releases page](https://github.com/C-ffeeStain/Kali-Sim/releases/lates
 
 
 # Building
-Get Git, Python 3.8 (or later), and run the following code to build this project:
+Get Git, Python 3.9, and run the following commands to build this project:
 
 ```bash
 git clone https://github.com/C-ffeeStain/Kali-Sim/
