@@ -129,3 +129,6 @@ saves/
 
 # Settings file
 *.ini
+
+# Executable files
+*.exe
