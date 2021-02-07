@@ -1,5 +1,5 @@
 import os
-import debug as dbg
+from logger import debug as dbg
 
 def get_save_num() -> int:
     save_num = int(input("Which save number would you like to use? "))
@@ -22,32 +22,32 @@ def open_save(save_number : int):
 def check_save(debug):
     if os.path.exists("saves"):
         if debug:
-            dbg.log("Saves directory exists!")
+            dbg("Saves directory exists!")
     else:
         if debug:
-            dbg.log("Saves directory does not exist, creating...")
+            dbg("Saves directory does not exist, creating...")
         os.mkdir("saves")
 
     if os.path.exists("saves/save1.txt"):
         if debug:
-            dbg.log("Save one exists!")
+            dbg("Save one exists!")
     else:
         if debug:
-            dbg.log("Save one does not exist, creating...")
+            dbg("Save one does not exist, creating...")
         save(0, 1, False)
 
     if os.path.exists("saves/save2.txt"):
         if debug:
-            dbg.log("Save two exists!")
+            dbg("Save two exists!")
     else:
         if debug:
-            dbg.log("Save two does not exist, creating...")
+            dbg("Save two does not exist, creating...")
         save(0, 2, False)
 
     if os.path.exists("saves/save3.txt"):
         if debug:
-            dbg.log("Save three exists!\n")
+            dbg("Save three exists!\n")
     else:
         if debug:
-            dbg.log("Save three does not exist, creating...\n")
+            dbg("Save three does not exist, creating...\n")
         save(0, 3, False)

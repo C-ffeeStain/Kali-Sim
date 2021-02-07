@@ -1,8 +1,22 @@
-import random,os,argparse,sys,math
-from typing import List
+import random,os,argparse,sys,math,json,requests,base64,logger
 from saveutils import *
 from time import sleep
 
+reqText = requests.get("https://github.com/C-ffeeStain/Kali-Sim/raw/main/version.json").text
+webJson = json.loads(reqText)
+version = "0.0.1"
+with open("version.json") as f:
+    vJson = json.load(f)
+
+webVersion = webJson["version"]
+webFeatures = webJson["features"]
+version = vJson["version"]
+features = vJson["features"]
+
+if webVersion == version:
+    logger.updater("You have the latest updates.")
+else:
+    print(str(webVersion) + " " + str(version))
 debug = False
 parser = argparse.ArgumentParser(description="Simple command line game to sacrifice to Spelunky 2's Kali.")
 parser.add_argument("--debug",help="Use this to tell this program to use debug mode.",action="store_true")
