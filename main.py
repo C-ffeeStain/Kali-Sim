@@ -1,5 +1,4 @@
 import random
-import os
 import argparse
 import sys
 import math
