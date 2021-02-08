@@ -1,13 +1,21 @@
-import random,os,argparse,sys,math,json,requests
-import logger,urllib.request, configparser
+import random
+import os
+import argparse
+import sys
+import math
+import json
+import requests
+import logger
+import configparser
 from saveutils import *
 from time import sleep
 
 cfgParser = configparser.ConfigParser()
 cfgParser.read("settings.ini")
-check_for_updates = cfgParser.getboolean("settings","check_for_updates",)
+check_for_updates = cfgParser.getboolean("settings", "check_for_updates")
 
-reqText = requests.get("https://github.com/C-ffeeStain/Kali-Sim/raw/main/version.json").text
+reqText = requests.get(
+    "https://github.com/C-ffeeStain/Kali-Sim/raw/main/version.json").text
 webJson = json.loads(reqText)
 with open("version.json") as f:
     vJson = json.load(f)
@@ -19,20 +27,26 @@ features = vJson["features"]
 
 if webVersion == version:
     logger.updater("You have the latest updates.")
-    logger.updater("To disable these messages, change 'check_for_updates' to false in settings.ini.")
+    logger.updater(
+        "To disable these messages, change 'check_for_updates' to false in settings.ini.")
 else:
-    logger.updater("You have an outdated version. Please download the latest release.").lower()
-    logger.updater("To disable these messages, change 'check_for_updates' to false in settings.ini.")
+    logger.updater(
+        "You have an outdated version. Please download the latest release.").lower()
+    logger.updater(
+        "To disable these messages, change 'check_for_updates' to false in settings.ini.")
 debug = False
-parser = argparse.ArgumentParser(description="Simple command line game to sacrifice to Spelunky 2's Kali.")
-parser.add_argument("--debug",help="Use this to tell this program to use debug mode.",action="store_true")
+parser = argparse.ArgumentParser(
+    description="Simple command line game to sacrifice to Spelunky 2's Kali.")
+parser.add_argument(
+    "--debug", help="Use this to tell this program to use debug mode.", action="store_true")
 args = parser.parse_args()
 
 debug = args.debug
 check_save(debug)
 save_number = get_save_num()
 
-items = ("Climbing Gloves", "Pitcher's Mitt", "Spring Shoes", "Spike Shoes", "Spectacles", "Compass", "Cape", "Paste")
+items = ("Climbing Gloves", "Pitcher's Mitt", "Spring Shoes",
+         "Spike Shoes", "Spectacles", "Compass", "Cape", "Paste")
 favor = open_save(save_number)
 
 got_present = False
@@ -40,22 +54,22 @@ got_kapala = False
 while True:
     dead = False
     sacrifice = ""
-    
+
     print("For the dead version of the item, add 'd' after it.\n"
-    + "So a dead damsel would be '1d'.\n\n"
-    + "1: Damsel \n"
-    + "2: Spelunker, Hired Hand, Shopkeeper, Other NPCs\n"
-    + "3: Witch Doctor, Crocman, Sorceress, Necromancer\n"
-    + "4: Caveman, Cave Mole, Tiki Man, Octopy, \n"
-    + "\tYeti, Olmite, Cave Turkey, Rock Dog, \n"
-    + "\tAxolotl, Qilin\n"
-    + "5: (can't be dead) Horned Lizard, Mantrap, Vampire, Vlad, \n"
-    + "\tScorpion\n"
-    + "6: Present\n"
-    + "7: Rock\n"
-    + "8: Golden Idol\n"
-    + "9: Ushabti\n"
-    + "10: Quit Sim\n\n")
+          + "So a dead damsel would be '1d'.\n\n"
+          + "1: Damsel \n"
+          + "2: Spelunker, Hired Hand, Shopkeeper, Other NPCs\n"
+          + "3: Witch Doctor, Crocman, Sorceress, Necromancer\n"
+          + "4: Caveman, Cave Mole, Tiki Man, Octopy, \n"
+          + "\tYeti, Olmite, Cave Turkey, Rock Dog, \n"
+          + "\tAxolotl, Qilin\n"
+          + "5: (can't be dead) Horned Lizard, Mantrap, Vampire, Vlad, \n"
+          + "\tScorpion\n"
+          + "6: Present\n"
+          + "7: Rock\n"
+          + "8: Golden Idol\n"
+          + "9: Ushabti\n"
+          + "10: Quit Sim\n\n")
     print("Your favor with Kali: " + str(favor))
     sacrifice = input("What would you like to sacrifice? ")
     print(" ")
@@ -106,7 +120,7 @@ while True:
         if favor >= 16:
             print("---------------------------------------------------------")
             print("Kali admires your warrior spirit. She fashions a weapon for you!\n"
-            + "Your rock turns into an arrow.")
+                  + "Your rock turns into an arrow.")
             print("---------------------------------------------------------\n")
         else:
             print("---------------------------------------------------------")
