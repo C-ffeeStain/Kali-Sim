@@ -36,7 +36,7 @@ except OSError as e:
 
 # Create and write to the config file 
 cfg = open(install_dir + "settings.ini", "w")
-cfg.writelines(["[settings]", "check_for_updates = true"])
+cfg.writelines(["[settings]\n", "check_for_updates = true"])
 cfg.close()
 
 logger.updater(f"Finished installing to \"{install_dir}!\"")
