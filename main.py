@@ -25,14 +25,18 @@ version = vJson["version"]
 features = vJson["features"]
 
 if webVersion == version:
-    logger.updater("You have the latest updates.")
-    logger.updater(
+    if check_for_updates:
+        logger.updater("You have the latest updates.")
+        logger.updater(
         "To disable these messages, change 'check_for_updates' to false in settings.ini.")
 else:
-    logger.updater(
-        "You have an outdated version. Please download the latest release.").lower()
-    logger.updater(
-        "To disable these messages, change 'check_for_updates' to false in settings.ini.")
+    if check_for_updates:
+        logger.updater(
+            "You have an outdated version. Please download the latest release.")
+        logger.updater(
+            "The features added in the newer version include: \n" + webFeatures)
+        logger.updater(
+            "To disable these messages, change 'check_for_updates' to false in settings.ini.")
 debug = False
 parser = argparse.ArgumentParser(
     description="Simple command line game to sacrifice to Spelunky 2's Kali.")

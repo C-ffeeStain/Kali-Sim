@@ -37,9 +37,9 @@ with open("dist\\main.exe", "rb") as f:
     exe_data = f.readlines()
 
 
-new_pos = open(install_dir + "KaliSim_ConsoleEditon.exe", "wb")
-new_pos.writelines(exe_data)
-new_pos.close()
+with open(install_dir + "KaliSim_ConsoleEditon.exe", "wb") as f:
+    f.writelines(exe_data)
+
 
 try:
     os.chdir("..\\")
