@@ -1,42 +1,56 @@
 import os
 import logger
-import requests
 import shutil
 
 install_dir = f"{os.getenv('APPDATA')}\\Kali Sim - CE\\"
-url = "https://github.com/C-ffeeStain/Kali-Sim/raw/main/main.py"
-
+base_url = "https://github.com/C-ffeeStain/Kali-Sim/raw/main/"
+requirements = ["pyinstaller", "requests"]
 logger.updater("Installing...")
-os.system("pip install -r requirements.txt")
-request = requests.get(url)
+for requirement in requirements:
+    os.system(f"py -m pip install --upgrade {requirement}")
+
+import requests
+
+if not os.path.exists(install_dir):
+    os.mkdir(install_dir)
+if not os.path.exists(".install"):
+    os.mkdir(".install")
+    os.system("attrib +H .install")
+
+os.chdir(".install\\")
+
+request = requests.get(base_url + "main.py")
 if request.status_code == requests.codes.ok:
     with open("main.py", "w") as f:
         f.write(request.text)
-os.system("pyinstaller main.py")
+
+request = requests.get(base_url + "icon.ico", stream = True)
+if request.status_code == requests.codes.ok:
+    request.raw.decode_content = True
+    with open("icon.ico", "wb") as icon:
+        shutil.copyfileobj(request.raw, icon)
+
+os.system(f"pyinstaller main.py --onefile --icon icon.ico")
 
 exe_data = []
 with open("dist\\main.exe", "rb") as f:
     exe_data = f.readlines()
-if not os.path.exists(install_dir):
-    os.mkdir(install_dir)
+
 
 new_pos = open(install_dir + "KaliSim_ConsoleEditon.exe", "wb")
 new_pos.writelines(exe_data)
 new_pos.close()
 
 try:
-    shutil.rmtree("build")
+    os.chdir("..\\")
+    shutil.rmtree(".install")
 except OSError as e:
-    print ("Error: %s - %s." % (e.filename, e.strerror))
+    print("Error: %s - %s." % (e.filename, e.strerror))
 
-try:
-    shutil.rmtree("dist")
-except OSError as e:
-    print ("Error: %s - %s." % (e.filename, e.strerror))
-
-# Create and write to the config file 
+# Create and write to the config file
 cfg = open(install_dir + "settings.ini", "w")
 cfg.writelines(["[settings]\n", "check_for_updates = true"])
 cfg.close()
 
 logger.updater(f"Finished installing to \"{install_dir}!\"")
+logger.updater("You can now delete this file!")
