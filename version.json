@@ -1,4 +1,4 @@
 {
-    "version": "0.0.2",
-    "features": "Auto setup and version checking"
+    "version": "0.0.3",
+    "features": "Auto install"
 }
