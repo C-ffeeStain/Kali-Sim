@@ -2,7 +2,7 @@
  A command-line form of Kali from Spelunky 2.
 
 # Installation
-Install Python 3.9, go to the [releases page](https://github.com/C-ffeeStain/Kali-Sim/releases/latest), and just click *kali-console.zip* to download it.
+Install Python 3.9, go to the [releases page](https://github.com/C-ffeeStain/Kali-Sim/releases/latest), and just click *setup.exe* to download it.
 
 
 # Building
