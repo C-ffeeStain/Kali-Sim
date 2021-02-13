@@ -128,3 +128,6 @@ saves/
 
 # Settings file
 *.ini
+
+# Setup file
+dist/setup_gui.exe
