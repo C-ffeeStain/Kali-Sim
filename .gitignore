@@ -10,7 +10,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -129,6 +128,3 @@ saves/
 
 # Settings file
 *.ini
-
-# Executable files
-*.exe
