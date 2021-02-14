@@ -1,53 +1,61 @@
 import os
 from logger import debug as dbg
+import configparser
 
 def get_save_num() -> int:
     save_num = int(input("Which save number would you like to use? "))
     return save_num
 
 def save(favor : int, save_number : int, show_msg : bool):
-    """Saves the game by writing to the currently used save.
-    favor: An integer to represent the kali favor to save.
-    save_number: The save number to save to. Can be from 1 to 3.
-    show_msg: Whether to show the message "Saving!" or not."""
+    cfg = configparser.ConfigParser()
+    cfg.read("saves.ini")
     if show_msg:
         print("Saving!")
-    with open("saves/save" + str(save_number) + ".txt", "w") as f:
-        f.write(str(favor))
+    cfg["save-" + save_number]["favor"] = favor
+    
+    with open("saves.ini", "w") as f:
+        cfg.write(f)
 
-def open_save(save_number : int):
-    with open("saves/save" + str(save_number) + ".txt", "r") as f:
-        return int(f.readline())
+def open_save(save_number):
+    cfg = configparser.ConfigParser()
+    cfg.read("saves.ini")
+    return int(cfg["save-" + save_number]["favor"])
 
 def check_save(debug):
-    if os.path.exists("saves"):
-        if debug:
-            dbg("Saves directory exists!")
-    else:
-        if debug:
-            dbg("Saves directory does not exist, creating...")
-        os.mkdir("saves")
+    cfg = configparser.ConfigParser()
 
-    if os.path.exists("saves/save1.txt"):
+    if os.path.exists("saves.ini"):
         if debug:
-            dbg("Save one exists!")
+            dbg("Saves file exists!")
     else:
         if debug:
-            dbg("Save one does not exist, creating...")
+            dbg("Saves file does not exist, creating...")
+        with open("saves.ini", "w") as f:
+            f.write("# This is Kali Sim's save file!\n# Make sure if you add a save, change 'num_saves' in the [general] section\n")
+    
+    cfg.read("saves.ini")
+
+    if "general" in cfg:
+        if debug:
+            dbg("General section exists.")
+    else:
+        if debug:
+            dbg("No general section, creating!")
+        cfg["general"] = {}
+        cfg["general"]["num_saves"] = len(cfg.sections()) - 1
+
+    if int(cfg["general"]["num_saves"]) > len(cfg.sections()) - 1 or int(cfg["general"]["num_saves"]) < 0:
+        if debug:
+            dbg("Number of saves error, fixing.")
+        cfg["general"]["num_saves"] = len(cfg.sections()) - 1
+    else:
+        if debug:
+            dbg("No save number error.")
+    
+    if "save-1" in cfg.sections():
+        if debug:
+            dbg("A save section exists!")
+    else:
+        if debug:
+            dbg("A save section does not exist, creating!")
         save(0, 1, False)
-
-    if os.path.exists("saves/save2.txt"):
-        if debug:
-            dbg("Save two exists!")
-    else:
-        if debug:
-            dbg("Save two does not exist, creating...")
-        save(0, 2, False)
-
-    if os.path.exists("saves/save3.txt"):
-        if debug:
-            dbg("Save three exists!\n")
-    else:
-        if debug:
-            dbg("Save three does not exist, creating...\n")
-        save(0, 3, False)
