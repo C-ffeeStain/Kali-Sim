@@ -129,5 +129,6 @@ saves/
 # Settings file
 *.ini
 
-# Setup file
-dist/setup_gui.exe
+# Setup files
+dist/setup.exe
+dist/setup_console.exe
