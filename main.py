@@ -3,7 +3,7 @@ import argparse
 import sys
 import math
 import json
-import requests
+import urllib.request
 import logger
 import configparser
 from saveutils import *
@@ -13,8 +13,8 @@ cfgParser = configparser.ConfigParser()
 cfgParser.read("settings.ini")
 check_for_updates = cfgParser.getboolean("settings", "check_for_updates")
 
-reqText = requests.get(
-    "https://github.com/C-ffeeStain/Kali-Sim/raw/main/version.json").text
+reqText = urllib.request.urlopen(
+    "https://raw.github.com/C-ffeeStain/Kali-Sim/main/version.json").read()
 webJson = json.loads(reqText)
 with open("version.json") as f:
     vJson = json.load(f)
@@ -50,7 +50,7 @@ save_number = get_save_num()
 
 items = ("Climbing Gloves", "Pitcher's Mitt", "Spring Shoes",
          "Spike Shoes", "Spectacles", "Compass", "Cape", "Paste")
-favor = open_save(save_number)
+favor = open_save(str(save_number))
 
 got_present = False
 got_kapala = False
@@ -171,7 +171,7 @@ while True:
         elif favor >= 8 and not got_present:
             print("---------------------------------------------------------")
             print("Kali accepts your sacrifice. She bestows a gift upon you!")
-            print("You pick up the " + items[random.randint(0, 8)] + ".")
+            print("You pick up the " + items[random.randint(0, 7)] + ".")
             print("---------------------------------------------------------\n")
             got_present = True
         elif favor >= 16 and not got_kapala:
